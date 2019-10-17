@@ -1,0 +1,21 @@
+opencv_workspace
+--neg
+----negimages.jpg
+--opencv
+--info
+--data
+--positives.vec --bg.txt
+--0.png
+
+find negatives -name "*.jpg" > bg.txt
+
+opencv_createsamples -img 0.png -bg bg.txt -info info/info.lst -pngoutput info -maxxangle 0.5 -maxyangle 0.5 -maxzangle 0.5 -num 1950
+
+opencv_createsamples -info ROI_TH.txt -num 2400 -w 30 -h 30 -vec positives_TH.vec
+
+opencv_traincascade -data data -vec positives_TH.vec -bg bg.txt -numPos 2000 -numNeg 3000 -w 30 -h 30
+
+
+opencv_annotation --annotations=/home/lmtruong/Desktop/HeadDetectOfficial/ROI_object1.txt --images=/home/lmtruong/Desktop/Img_Head_Data/1
+
+opencv_visualisation --image=/home/lmtruong/Documents/HaarTraining/opencv_workspace1/2.png --model=/home/lmtruong/Documents/HaarTraining/opencv_workspace1/data/cascade.xml --data=/home/lmtruong/
